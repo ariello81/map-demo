@@ -26,7 +26,7 @@
 <script type="text/javascript" src="pl-states.js"></script>
 <script>
 
-	var map = L.map('map').setView([51, 21], 4);
+	var map = L.map('map').setView([51.7, 20], 7);
 
 	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 		maxZoom: 18,
@@ -38,8 +38,35 @@
 		zoomOffset: -1
 	}).addTo(map);
 
-	var geojson = L.geoJson(statesData).addTo(map);
 
+    function getColor(d) {
+        return d > 250  ? '#bd0026' :
+           d > 150  ? '#e31a1c' :
+           d > 130  ? '#fc4e2a' :
+           d > 115   ? '#fd8d3c' :
+           d > 100   ? '#feb24c' :
+           d > 80   ? '#fed976' :
+           d > 60   ? '#ffeda0' :
+                     '#ffffcc' ;
+    };
+
+
+    function style(feature) {
+        return {
+            fillColor: getColor(feature.properties.density),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+            }
+    };
+
+
+
+	var geojson = L.geoJson(statesData, {
+		style: style,
+	}).addTo(map);
 
 </script>
 
